@@ -1,36 +1,20 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Recipe } from 'src/app/models/recipe.model';
+import {RecipeService} from '../../services/recipe.service';
 
 @Component({
-  selector: "app-recipe-list",
-  templateUrl: "./recipe-list.component.html",
-  styleUrls: ["./recipe-list.component.css"]
+  selector: 'app-recipe-list',
+  templateUrl: './recipe-list.component.html',
+  styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent implements OnInit {
-  @Output() recipeWasSelected = new EventEmitter<Recipe>();
+  recipes: Recipe[];
 
-  recipes: Recipe[] = [
-    new Recipe(
-      'Test Recipe',
-      'This is a Test Recipe',
-      'https://pinchofyum.com/wp-content/uploads/Buffalo-Cauliflower-Tacos-with-Avocado-Crema-Recipe.jpg',
-    true),
-    new Recipe(
-      'Test Recipe',
-      'This is a Test Recipe',
-      'https://pinchofyum.com/wp-content/uploads/Buffalo-Cauliflower-Tacos-with-Avocado-Crema-Recipe.jpg',
-    true),
-    new Recipe(
-      'Another Recipe',
-      'This is a Another Recipe',
-      'https://pinchofyum.com/wp-content/uploads/Buffalo-Cauliflower-Tacos-with-Avocado-Crema-Recipe.jpg',
-      true)
-  ];
+  constructor(
+    private recipeService: RecipeService
+  ) {}
 
-  constructor() {}
-
-  ngOnInit() {}
-  onRecipeSelected(recipe: Recipe) {
-    this.recipeWasSelected.emit(recipe);
+  ngOnInit() {
+    this.recipes = this.recipeService.getRecipes();
   }
 }
